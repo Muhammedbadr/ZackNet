@@ -11,7 +11,13 @@ default: &default
 
 development:
   <<: *default
-  database: storage/development.sqlite3
+  database: <%= ENV["POSTGRES_DB"]%>
+  host: localhost
+  port: 5432
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+
+
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -29,4 +35,9 @@ test:
 # ensure the database is located in a persisted volume.
 production:
   <<: *default
+  database: <%= ENV["POSTGRES_DB"]%>
+  host: localhost
+  port: 5432
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
   # database: path/to/persistent/storage/production.sqlite3
