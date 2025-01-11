@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_11_155447) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_11_163501) do
   create_table "comments", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "post_id", null: false
@@ -19,6 +19,21 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_11_155447) do
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "communities", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "community_users", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "community_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["community_id"], name: "index_community_users_on_community_id"
+    t.index ["user_id"], name: "index_community_users_on_user_id"
   end
 
   create_table "likes", force: :cascade do |t|
@@ -37,6 +52,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_11_155447) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
+  create_table "relationships", force: :cascade do |t|
+    t.integer "follower_id"
+    t.integer "followed_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "reposts", force: :cascade do |t|
@@ -62,9 +84,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_11_155447) do
 
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "community_users", "communities"
+  add_foreign_key "community_users", "users"
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
   add_foreign_key "posts", "users"
+  add_foreign_key "relationships", "users", column: "followed_id"
+  add_foreign_key "relationships", "users", column: "follower_id"
   add_foreign_key "reposts", "posts"
   add_foreign_key "reposts", "users"
 end
