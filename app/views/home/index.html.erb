@@ -1,3 +1,32 @@
-<div class="container">
-    <h2><%=t("Welcome")%></h2>
+<div class="container my-5">
+    <!-- Create New Post -->
+  <div class="row mb-4">
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title mb-2">Create New Post</h5>
+                    <form enctype="multipart/form-data" accept-charset="UTF-8" action="/post/create" method="post">
+                        <div class="form-group">
+                            <textarea name="post_text" class="form-control mb-3" id="postTextarea" rows="3" placeholder="What's happening?"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </form>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- Timeline -->
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <% @posts.each do |post| %>
+        <div class="card mb-3 shadow-sm">
+          <div class="card-body">
+            <p class="card-text"><%= post.post_text %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  
 </div>

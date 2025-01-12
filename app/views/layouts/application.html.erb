@@ -24,7 +24,7 @@
   </head>
   <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg shadow-md" style="background-color:rgb(244 244 244) !important">
+    <nav class="navbar navbar-expand-lg  bg-light shadow-md">
       <div class="container-fluid">
         <!-- Brand -->
         <a class="navbar-brand fw-bold fs-4 text-primary" href="/">ZACKNET</a>
@@ -54,11 +54,29 @@
       </div>
     </nav>
 
+    <div class="container mt-5">
+      <!-- Notice Message -->
+      <% if notice.present? %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= notice %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
 
-    <main class="container ">
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
-    </main>
+      <!-- Alert Message -->
+      <% if alert.present? %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= alert %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
+    </div>
+
+
+
+
+    <div class="container">
       <%= yield %>
+    </div>
   </body>
 </html>
