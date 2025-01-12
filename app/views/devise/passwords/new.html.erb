@@ -1,16 +1,26 @@
-<h2>Forgot your password?</h2>
+<div class="container-fluid  d-flex align-items-center justify-content-center">
+  <div class="card shadow-lg p-4 rounded" style="max-width: 400px; width: 100%;">
+    <h2 class="text-center text-primary mb-4 fw-bold"><%= t(:forget_password)%></h2>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <!-- Error Messages -->
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      <!-- Email Field -->
+      <div class="mb-3">
+        <%= f.label :email, class: "form-label fw-semibold" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control rounded-pill shadow-sm" %>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="d-grid">
+        <%= f.submit t(:send_to_reset), class: "btn btn-primary rounded-pill fw-bold shadow-sm" %>
+      </div>
+    <% end %>
+
+    <!-- Links -->
+    <div class="mt-3 text-center">
+      <%= render "devise/shared/links" %>
+    </div>
   </div>
-
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
