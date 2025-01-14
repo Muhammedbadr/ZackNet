@@ -1,56 +1,103 @@
     <div class="container my-5">
         <!-- Create New Post -->
-        <div class="row mb-4">
-            <div class="col-md-6 col-lg-8 mx-auto">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title mb-2">Create New Post</h5>
-                        <form enctype="multipart/form-data" accept-charset="UTF-8" action="/post/create" method="post">
-                            <div class="form-group">
-                                <textarea name="post_text" class="form-control mb-3" id="postTextarea" rows="3" placeholder="What's happening?"></textarea>
-                                <input name="image" class="form-control mb-2" type="file" id="image">
+        <form enctype="multipart/form-data" accept-charset="UTF-8" action="/post/create" method="post">
+            <div class="row mb-4">
+                <div class="col-md-6 col-lg-8 mx-auto">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title mb-2 fw-bold text-primary">Create New Post</h5>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-regular fa-file-lines"></i></span>
+                                <textarea name="post_text" class="form-control" id="postTextarea" rows="3" placeholder="What's happening?"></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary">Create</button>
-                        </form>
+                            <div class="mb-2">
+                                <label for="image" class="form-label">Attach an image</label>
+                                <input name="image" class="form-control" type="file" id="image">
+                            </div>
+                            <button type="submit" class="btn btn-success ">Create</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Timeline -->
-        <div class="row">
-            <div class="col-md-6 col-lg-8 mx-auto">
+        </form>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
                 <% @posts.each do |post| %>
-                    <div class="card mb-4 shadow-sm border-1">
-                        <div class="card-header bg-primary text-white">
+                    <div class="card mb-4  border-2 rounded-3">
+                        <div class="card-header bg-primary text-white d-flex align-items-center">
+                            <i class="bi bi-person-circle me-2 fs-4"></i>
                             <p class="mb-0">
-                                <i class="bi bi-person-circle me-2"></i>
                                 <%= post.user.username %> created a new post
                             </p>
                         </div>
                         <% if post.image.attached? %>
-                            <img src="<%= url_for(post.image) %>" class="card-imm" alt="Post Image" style="max-height: 700px; object-fit: cover;">
+                            <img src="<%= url_for(post.image) %>" class="card-img" alt="Post Image" style="max-height: 700px; object-fit: cover;">
                         <% end %>
                         <div class="card-body">
-                            <p class="card-text text-black"><%= post.post_text %></p>
+                            <p class="card-text text-dark mb-2 "><%= post.post_text %></p>
                         </div>
-                        <div class="card-footer d-flex align-items-center px-3 py-2 border-top">
-                            <!-- Like Button -->
-                            <div class="d-flex align-items-center">
-                                <form action="/post/like" method="post">
+                        <div class="card-footer d-flex align-items-center px-4 py-2  rounded-bottom border-top-0 bg-light">
+                            <div class="d-flex align-items-center w-100 justify-content-between">
+                                <form action="/post/like" method="post" class="d-flex w-100 justify-content-between">
                                     <input type="hidden" name="post_id" value="<%= post.id %>">
+                                    
+                                    <!-- Like Button -->
                                     <% if post.likes.exists?(user_id: current_user.id) %>
-                                        <button type="submit" class="btn p-0 border-0 bg-transparent d-flex align-items-center">
-                                        <i class="fa-solid fs-5 fa-heart me-2" style="color: #ff4747;"></i>
+                                        <button type="submit" class="btn p-0 border-0 bg-transparent d-flex align-items-center me-3">
+                                            <i class="fa-solid fs-5 fa-heart  me-2"  style="color: #ff4747;"></i>
+                                            <span class=""  style="color: #ff4747;">Liked</span>
                                         </button>
                                     <% else %>
-                                        <button type="submit" class="btn p-0 border-0 bg-transparent d-flex align-items-center">
-                                        <i class="bi bi-heart fs-5 text-gray me-2"></i>
+                                        <button type="submit" class="btn p-0 border-0 bg-transparent d-flex align-items-center me-3">
+                                            <i class="bi bi-heart fs-5 text-muted me-2"></i>
+                                            <span class="text-muted">Like</span>
                                         </button>
                                     <% end %>
-                                </form>
 
-                            </div>                            
+                                    <!-- Comment Button -->
+                                    <a class="btn p-0 border-0 bg-transparent d-flex" data-bs-toggle="collapse" href="#collapse<%= post.id %>" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                        <i class="bi bi-chat fs-5 me-2 text-muted"></i>
+                                        <span class="text-muted">Comment</span>
+                                    </a>
+                                </form>
+                            </div>
                         </div>
+                        <div class="collapse" id="collapse<%= post.id %>">
+                        <div class="card card-body border-0 p-4 mb-3">
+                            <!-- Comment Form -->
+                            <form action="/post/comment" method="post" class="mb-4">
+                                <input type="hidden" name="post_id" value="<%= post.id %>">
+                                <div class="mb-3">
+                                    <label for="comment" class="form-label fw-bold">Add a Comment:</label>
+                                    <textarea name="comment_text" class="form-control" placeholder="Write a comment..." rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Post Comment</button>
+                            </form>
+
+                            <!-- Comment Show Section -->
+                            <div class="comments-section">
+                                <% post.comments.each do |comment| %>
+                                    <div class="card mb-3 border-light shadow-sm">
+                                        <div class="card-body">
+                                            <!-- Comment Username and Text -->
+                                            <div class="d-flex justify-content-between">
+                                                <div>
+                                                    <i class="bi bi-person-circle text-primary me-2 fs-4"></i>
+                                                    <strong><%= comment.user.username %></strong>
+                                                </div>
+                                                <!-- Optional: Timestamp (e.g., '2 hours ago') -->
+                                                <small class=" text-gray-400">2 hours ago</small>
+                                            </div>
+                                            <p class="mt-2"><%= comment.comment_text %></p>
+                                        </div>
+                                    </div>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+
+
                     </div>
                 <% end %>
             </div>
