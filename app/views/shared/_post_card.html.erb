@@ -1,7 +1,12 @@
-                            <div class="card-header bg-primary text-white d-flex align-items-center">
-                                <i class="bi bi-person-circle me-2 fs-4"></i>
-                                <p class="mb-0">
-                                    <%= post.user.username %> created a new post
+                            
+                            <div class="card-header bg-primary text-white d-flex align-items-center gap-2">
+                                   <% if post.user.avatar.attached? %>
+                                        <img src="<%= url_for(post.user.avatar) %>" class="object-cover rounded-circle border border-0 " alt="Post Image" style="height: 40px; width: 40px; object-fit: cover;">
+                                        <% else %>
+                                            <i class="bi bi-person-circle fs-1"></i>
+                                        <% end %>                       
+                            <p class="mb-0 fw-bold">
+                                <%= post.user.username %> created a new post
                             </p>
                             </div>
                             <% if post.image.attached? %>
