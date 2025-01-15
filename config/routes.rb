@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   post "post/like"
   post "post/comment"
   post "post/create"
+  get "user/index"
+  get "user/profile"
   root "home#index"
 
 end

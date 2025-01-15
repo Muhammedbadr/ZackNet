@@ -27,36 +27,43 @@
   </head>
   <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg  bg-light shadow-md">
-      <div class="container-fluid">
-        <!-- Brand -->
+  <nav class="navbar navbar-expand-lg bg-light shadow-md">
+    <div class="container-fluid">
+      <!-- Brand -->
+      <a class="navbar-brand fw-bold fs-4 text-primary" href="/">ZACKNET</a>
 
-        <a class="navbar-brand fw-bold fs-4 text-primary" href="/">ZACKNET <i class="bi bi-pencil text-primary fs-4"></i></a>
+      <!-- Responsive Toggle Button -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarContent"
+        aria-controls="navbarContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-        <!-- Responsive Toggle Button -->
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarContent"
-          aria-controls="navbarContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- Navbar Content -->
-        <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
-          <div class="d-flex align-items-center gap-3">
-            <!-- Buttons -->
-            <%= button_to t(:home), root_path, class: "btn btn-outline-primary px-4 rounded-pill shadow-sm fw-semibold" %>
-            <%= button_to t(:sign_in), new_user_session_path, class: "btn btn-primary px-4 rounded-pill shadow-sm fw-semibold" %>
-            <%= button_to t(:sign_out), destroy_user_session_path, class: "btn btn-danger px-4 rounded-pill shadow-sm fw-semibold", method: :delete %>
-          </div>
+      <!-- Navbar Content -->
+      <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+        <div class="d-flex align-items-center gap-3">
+          <!-- Buttons -->
+          <%= button_to t(:home), root_path, class: "btn btn-outline-primary px-4 rounded-pill shadow-sm fw-semibold" %>
+          <% if user_signed_in? %>
+          <a class="btn btn-outline-primary px-4 rounded-pill shadow-sm fw-semibold" href="user/profile" role="button">
+            Profile
+          </a>
+            <%= button_to t(:sign_out), destroy_user_session_path, class: "btn btn-outline-danger px-4 rounded-pill shadow-sm fw-semibold", method: :delete %>
+          <% else %>
+            <%= button_to t(:sign_in), new_user_session_path, class: "btn btn-outline-primary px-4 rounded-pill shadow-sm fw-semibold" %>
+          <% end %>
         </div>
       </div>
-    </nav>
+    </div>
+  </nav>
+
+
 
     <div class="container mt-4">
       <!-- Notice Message -->
