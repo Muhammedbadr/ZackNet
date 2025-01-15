@@ -1,9 +1,11 @@
 class HomeController < ApplicationController
   def index
+    @feeds = []
     if current_user
-      @posts = Post.where.not(user_id: current_user.id).order(created_at: :desc)
-    else
-      @posts = [] # Optional: Can be omitted if @posts is not used when user is not signed in
+      posts = Post.where.not(user_id: current_user.id).order(created_at: :desc)
+      comments = Comment.where.not(user_id: current_user.id).order(created_at: :desc)
+      all_activities = posts + comments
+      @feeds = all_activities.sort_by(&:created_at).reverse
     end
   end
 end
