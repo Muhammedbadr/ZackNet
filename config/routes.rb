@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   post "post/comment"
   post "post/create"
   post "user/avatar"
+  post 'user/follow'
+  post "user/unfollow"
   get "user/index"
   get "user/profile"
   root "home#index"
