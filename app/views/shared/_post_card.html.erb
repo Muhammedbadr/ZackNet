@@ -5,8 +5,10 @@
         <% else %>
             <i class="bi bi-person-circle fs-1 text-white"></i>
         <% end %>
-        <p class="mb-0 fw-bold text-white">
-            <%= post.user.username %> created a new post
+        <p class="mb-0 fw-normal text-white">
+            <a class="text-white" style="text-decoration: none;" href="/user/<%= post.user.id %>">
+                <%= post.user.username %> created a new post
+            </a>
         </p>
     </div>
 
@@ -65,8 +67,10 @@
                     <!-- Comment Header -->
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center">
-                            <i class="bi bi-person-circle text-primary fs-4 me-2"></i>
-                            <strong class="text-primary me-2"><%= comment.user.username %></strong>
+
+                                <i class="bi bi-person-circle text-primary fs-4 me-2"></i>
+                                <strong class="text-primary me-2"><%= comment.user.username %></strong>
+
                         </div>
                         <!-- Timestamp -->
                         <small class="text-muted fst-italic">2 hours ago</small>

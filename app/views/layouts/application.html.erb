@@ -51,7 +51,7 @@
           <!-- Buttons -->
           <%= button_to t(:home), root_path , class: "btn btn-outline-primary px-4 rounded-pill shadow-sm fw-semibold" %>
           <% if user_signed_in? %>
-          <a class="btn btn-outline-primary px-4 rounded-pill shadow-sm fw-semibold" href="/user/profile" role="button">
+          <a class="btn btn-outline-primary px-4 rounded-pill shadow-sm fw-semibold" href="/user/<%= current_user.id%>" role="button">
             Profile
           </a>
             <%= button_to t(:sign_out), destroy_user_session_path, class: "btn btn-outline-danger px-4 rounded-pill shadow-sm fw-semibold", method: :delete %>

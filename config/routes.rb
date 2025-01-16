@@ -17,8 +17,12 @@ Rails.application.routes.draw do
   post "user/avatar"
   post 'user/follow'
   post "user/unfollow"
+  post "user/username"
   get "user/index"
-  get "user/profile"
+  # Example route in routes.rb
+  get '/user/:id', to: 'user#profile', as: 'user_profile'
+
+  # get "user/:id",to: "user#profile"
   root "home#index"
 
 end

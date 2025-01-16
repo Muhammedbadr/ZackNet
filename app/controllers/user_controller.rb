@@ -3,7 +3,8 @@ class UserController < ApplicationController
       @users = User.where.not(id: current_user.id)
     end
     def profile
-        @user = User.find(current_user.id)
+          @user = User.find(params[:id]) # Use find to get a single user by ID
+        
     end 
     def avatar
         user = User.find(current_user.id)
@@ -43,6 +44,16 @@ class UserController < ApplicationController
         else
           redirect_to request.referrer, alert: "You are not following this user."
         end
+      end
+    end
+
+    def username
+      user = User.find(current_user.id)
+      if user.update(username: params[:username])
+        redirect_to request.referrer, notice: "Your username has been updated successfully!.", allow_other_host: true
+        
+      else
+        redirect_to request.referrer, alert: "Failed to update your username."
       end
     end
     

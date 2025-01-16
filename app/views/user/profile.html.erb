@@ -1,153 +1,163 @@
 <div class="container mt-5">
   <!-- Profile Header -->
     <div class="d-flex justify-content-center my-5">
-        <div class="card col-lg-7 col-md-8 border-0 shadow rounded-2 overflow-hidden">
+        <div class="card col-lg-7 col-md-8 border-0 shadow-xl rounded-3 overflow-hidden">
             <!-- Profile Header -->
-            <div class="card-header bg-gradient text-white d-flex align-items-center py-2 px-4 position-relative">
-            <!-- Background Gradient -->
-            <div class="position-absolute top-0 start-0 w-100 h-100 bg-opacity-25" 
-                style="background: linear-gradient(135deg, #1d4ed8, #3b82f6); z-index: 0;">
-            </div>
-            <!-- Avatar & Info -->
-            <div class="d-flex align-items-center w-100 py-2" style="z-index: 1;">
-                <div class="me-3">
-                <% if @user.avatar.attached? %>
-                    <img src="<%= url_for(@user.avatar) %>" 
-                        class="rounded-circle border border-1 border-white shadow-sm"
-                        style="height: 60px; width: 60px; object-fit: cover;">
-                <% else %>
-                    <i class="bi bi-person-circle text-white fs-1"></i>
-                <% end %>
+            <div class="card-header bg-gradient text-white d-flex align-items-center py-3 px-4 position-relative">
+                <!-- Background Gradient -->
+                <div class="position-absolute top-0 start-0 w-100 h-100 bg-opacity-25"
+                    style="background: linear-gradient(135deg, #1d4ed8, #3b82f6); z-index: 0;">
                 </div>
-                <div>
-                <h3 class="mb-1 fw-bold"><%= @user.username %></h3>
-                <p class="mb-0 fst-italic">Joined <%= @user.created_at.strftime("%B %d, %Y") %></p>
+                <!-- Avatar & Info -->
+                <div class="d-flex align-items-center w-100 py-2" style="z-index: 1;">
+                    <div>
+                        <div class="me-3">
+                            <% if @user.avatar.attached? %>
+                                <img src="<%= url_for(@user.avatar) %>"
+                                    class="rounded-circle border-2 border-white shadow-lg"
+                                    style="height: 70px; width: 70px; object-fit: cover;">
+                            <% else %>
+                                <i class="bi bi-person-circle text-white fs-1"></i>
+                            <% end %>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="mb-1 fw-bold fs-4"><%= @user.username %></h3>
+                        <p class="mb-0 text-opacity-75 fst-italic">Joined <%= @user.created_at.strftime("%B %d, %Y") %></p>
+                    </div>
                 </div>
-            </div>
             </div>
 
             <!-- Card Body -->
             <div class="card-body text-center bg-light py-4">
-            <form enctype="multipart/form-data" action="/user/avatar" accept-charset="UTF-8" method="post" class="w-75 mx-auto">
-                <!-- Avatar Update -->
-                <label class="form-label fw-bold text-secondary">Change Profile Picture</label>
-                <div class="input-group mb-3">
-                <input type="file" name="avatar" accept="image/png, image/jpeg" 
-                        class="form-control rounded-pill shadow-sm">
+                <form enctype="multipart/form-data" action="/user/avatar" accept-charset="UTF-8" method="post"
+                    class="w-75 mx-auto mb-4">
+                    <!-- Avatar Update -->
+                    <label class="form-label fw-bold text-secondary mb-2">Change Profile Picture</label>
+                    <div class="input-group mb-3">
+                        <input type="file" name="avatar" accept="image/png, image/jpeg" class="form-control rounded-pill  shadow-sm">
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary btn-sm px-5 rounded-pill shadow-sm mb-2">
+                            <i class="bi bi-upload"></i> Update
+                        </button>
+                        <button type="submit" class="btn btn-danger btn-sm px-5 rounded-pill shadow-sm mb-2">
+                            <i class="bi bi-trash"></i> Delete
+                        </button>
+                    </div>
+                </form>
+
+                <form action="/user/username" method="post" class="mb-4">
+                    <label for="username" class="form-label fw-bold text-secondary mb-2">Change Username</label>
+                    <input type="text" name="username" placeholder="New Username" class="form-control rounded-pill mb-3 shadow-sm w-50 mx-auto">
+                    <button type="submit" class="btn btn-primary btn-sm px-5 rounded-pill shadow-sm">Change</button>
+                </form>
+
+                <div class="mt-4">
+                    <a href="/user/index" class="btn btn-outline-primary btn-sm px-5 rounded-pill fw-bold">
+                        <i class="bi bi-people-fill"></i> View Followers
+                    </a>
                 </div>
-                <div>
-                <button type="submit" class="btn btn-primary btn-sm px-4 me-2 rounded-pill shadow-sm">
-                    <i class="bi bi-upload"></i> Update
-                </button>
-                <button type="submit" class="btn btn-danger btn-sm px-4 rounded-pill shadow-sm">
-                    <i class="bi bi-trash"></i> Delete
-                </button>
-                </div>
-            </form>
-            <div class="mt-4">
-                <a href="/user/index" class="btn btn-outline-primary btn-sm px-4 rounded-pill fw-bold">
-                <i class="bi bi-people-fill"></i> View Followers
-                </a>
-            </div>
             </div>
         </div>
-        </div>
+    </div>
+
 
 
     <!-- User Posts Section -->
    <div class="row justify-content-center my-5">
-  <div class="col-lg-7 col-md-8">
-    <h4 class="mb-4 text-center fw-bold text-primary">Posts by <%= @user.username %></h4>
+        <div class="col-lg-7 col-md-8">
+            <h4 class="mb-4 text-center fw-bold text-primary">Posts by <%= @user.username %></h4>
 
-    <% @user.posts.each do |post| %>
-      <div class="card mb-4 border-0 shadow-sm rounded-4">
-        <!-- Post Header -->
-        <div class="card-header bg-primary text-white d-flex align-items-center gap-2 rounded-top">
-          <% if post.user.avatar.attached? %>
-            <img src="<%= url_for(post.user.avatar) %>" 
-                 class="rounded-circle border border-1 border-light shadow-sm"
-                 alt="User Avatar" 
-                 style="height: 40px; width: 40px; object-fit: cover;">
-          <% else %>
-            <i class="bi bi-person-circle fs-2 text-light"></i>
-          <% end %>
-          <div>
-            <p class="mb-0 fw-bold"><%= post.user.username %></p>
-            <small class="text-white-50">Posted on <%= post.created_at.strftime("%B %d, %Y") %></small>
-          </div>
-        </div>
-
-        <!-- Post Image -->
-        <% if post.image.attached? %>
-          <img src="<%= url_for(post.image) %>" 
-               class="card-img-top" 
-               alt="Post Image" 
-               style="max-height: 400px; object-fit: cover;">
-        <% end %>
-
-        <!-- Post Body -->
-        <div class="card-body">
-          <p class="card-text text-dark"><%= post.post_text %></p>
-        </div>
-
-        <!-- Post Footer -->
-        <div class="card-footer d-flex justify-content-between align-items-center bg-light rounded-bottom px-4 py-2">
-          <form action="/post/like" method="post" class="d-flex align-items-center">
-            <input type="hidden" name="post_id" value="<%= post.id %>">
-            <% if post.likes.exists?(user_id: current_user.id) %>
-              <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent d-flex align-items-center text-danger">
-                <i class="bi bi-heart-fill fs-6 me-2"></i>
-                <span>Liked</span>
-              </button>
-            <% else %>
-              <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent d-flex align-items-center text-muted">
-                <i class="bi bi-heart fs-6 me-2"></i>
-                <span>Like</span>
-              </button>
-            <% end %>
-          </form>
-          <!--<a class="btn btn-sm text-primary fw-bold" data-bs-toggle="collapse" href="#collapse<%= post.id %>" role="button" aria-expanded="false" aria-controls="collapse<%= post.id %>">
-            <i class="bi bi-chat me-2"></i>Comments
-          </a>-->
-        </div>
-
-        <!-- Comments Section -->
-        <div class="collapse" id="collapse<%= post.id %>">
-          <div class="card-body border-top">
-            <!-- Add a Comment -->
-            <form action="/post/comment" method="post" class="mb-4">
-              <input type="hidden" name="post_id" value="<%= post.id %>">
-              <textarea name="comment_text" class="form-control mb-3 shadow-sm" placeholder="Write a comment..." rows="3"></textarea>
-              <button type="submit" class="btn btn-primary w-100 rounded-pill">Post Comment</button>
-            </form>
-
-            <!-- Display Comments -->
-            <% post.comments.each do |comment| %>
-              <div class="card mb-3 border-0 shadow-sm rounded-3">
-                <div class="card-body bg-light">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center">
-                      <% if comment.user.avatar.attached? %>
-                        <img src="<%= url_for(comment.user.avatar) %>" 
-                             class="rounded-circle me-2"
-                             style="height: 35px; width: 35px; object-fit: cover;">
-                      <% else %>
-                        <i class="bi bi-person-circle text-primary fs-4 me-2"></i>
-                      <% end %>
-                      <strong class="text-primary"><%= comment.user.username %></strong>
-                    </div>
-                    <small class="text-muted fst-italic"><%= time_ago_in_words(comment.created_at) %> ago</small>
-                  </div>
-                  <p class="mt-2 text-secondary"><%= comment.comment_text %></p>
+            <% @user.posts.each do |post| %>
+            <div class="card mb-4 border-0 shadow-sm rounded-4">
+                <!-- Post Header -->
+                <div class="card-header bg-primary text-white d-flex align-items-center gap-2 rounded-top">
+                <% if post.user.avatar.attached? %>
+                    <img src="<%= url_for(post.user.avatar) %>" 
+                        class="rounded-circle border border-1 border-light shadow-sm"
+                        alt="User Avatar" 
+                        style="height: 40px; width: 40px; object-fit: cover;">
+                <% else %>
+                    <i class="bi bi-person-circle fs-2 text-light"></i>
+                <% end %>
+                <div>
+                    <p class="mb-0 fw-bold"><%= post.user.username %></p>
+                    <small class="text-white-50">Posted on <%= post.created_at.strftime("%B %d, %Y") %></small>
                 </div>
-              </div>
+                </div>
+
+                <!-- Post Image -->
+                <% if post.image.attached? %>
+                <img src="<%= url_for(post.image) %>" 
+                    class="card-img-top" 
+                    alt="Post Image" 
+                    style="max-height: 400px; object-fit: cover;">
+                <% end %>
+
+                <!-- Post Body -->
+                <div class="card-body">
+                <p class="card-text text-dark"><%= post.post_text %></p>
+                </div>
+
+                <!-- Post Footer -->
+                <div class="card-footer d-flex justify-content-between align-items-center bg-light rounded-bottom px-4 py-2">
+                <form action="/post/like" method="post" class="d-flex align-items-center">
+                    <input type="hidden" name="post_id" value="<%= post.id %>">
+                    <% if post.likes.exists?(user_id: current_user.id) %>
+                    <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent d-flex align-items-center text-danger">
+                        <i class="bi bi-heart-fill fs-6 me-2"></i>
+                        <span>Liked</span>
+                    </button>
+                    <% else %>
+                    <button type="submit" class="btn btn-sm p-0 border-0 bg-transparent d-flex align-items-center text-muted">
+                        <i class="bi bi-heart fs-6 me-2"></i>
+                        <span>Like</span>
+                    </button>
+                    <% end %>
+                </form>
+                <a class="btn btn-sm text-primary fw-bold" data-bs-toggle="collapse" href="#collapse<%= post.id %>" role="button" aria-expanded="false" aria-controls="collapse<%= post.id %>">
+                    <i class="bi bi-chat me-2"></i>Comments
+                </a>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="collapse" id="collapse<%= post.id %>">
+                <div class="card-body border-top">
+                    <!-- Add a Comment -->
+                    <form action="/post/comment" method="post" class="mb-4">
+                    <input type="hidden" name="post_id" value="<%= post.id %>">
+                    <textarea name="comment_text" class="form-control mb-3 shadow-sm" placeholder="Write a comment..." rows="3"></textarea>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill">Post Comment</button>
+                    </form>
+
+                    <!-- Display Comments -->
+                    <% post.comments.each do |comment| %>
+                    <div class="card mb-3 border-0 shadow-sm rounded-3">
+                        <div class="card-body bg-light">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                            <% if comment.user.avatar.attached? %>
+                                <img src="<%= url_for(comment.user.avatar) %>" 
+                                    class="rounded-circle me-2"
+                                    style="height: 35px; width: 35px; object-fit: cover;">
+                            <% else %>
+                                <i class="bi bi-person-circle text-primary fs-4 me-2"></i>
+                            <% end %>
+                            <strong class="text-primary"><%= comment.user.username %></strong>
+                            </div>
+                            <small class="text-muted fst-italic"><%= time_ago_in_words(comment.created_at) %> ago</small>
+                        </div>
+                        <p class="mt-2 text-secondary"><%= comment.comment_text %></p>
+                        </div>
+                    </div>
+                    <% end %>
+                </div>
+                </div>
+            </div>
             <% end %>
-          </div>
         </div>
-      </div>
-    <% end %>
-  </div>
-</div>
+    </div>
 
 
 </div>
