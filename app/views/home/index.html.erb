@@ -28,8 +28,11 @@
                     <div class="card mb-4  border-0 rounded-3">
                         <%if feed.is_a?(Post)%>
                             <%= render "shared/post_card" , post: feed , type:"post" %>
-                        <%else%>
+                        <%elsif feed.is_a?(Comment)%>
                             <%= render "shared/post_card" , post: feed.post , type:"comment" %>
+                        <%elsif feed.is_a?(Repost)%>
+                            <%= render "shared/post_card" , post: feed.post , type:"repost" %>
+                        
                         <%end%>
                     </div>
                 <% end %>

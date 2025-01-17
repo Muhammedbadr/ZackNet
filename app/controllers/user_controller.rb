@@ -3,9 +3,15 @@ class UserController < ApplicationController
       @users = User.where.not(id: current_user.id)
     end
     def profile
-          @user = User.find(params[:id]) # Use find to get a single user by ID
-        
-    end 
+      user = User.find(params[:id])
+      posts = user.posts
+      reposts = user.reposts
+      all_activities = posts + reposts
+      @feeds = all_activities.sort_by(&:created_at).reverse
+      @user = user
+    end
+    
+  
     def avatar
         user = User.find(current_user.id)
         if user.avatar.attach(avatar_params[:avatar])

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   post "post/like"
+  post "post/repost"
   post "post/comment"
   post "post/create"
   post "user/avatar"

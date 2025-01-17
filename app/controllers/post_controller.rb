@@ -39,4 +39,12 @@ class PostController < ApplicationController
       redirect_to request.referrer, alert: "Failed to send message: #{comment.errors.full_messages.to_sentence}", allow_other_host: true
     end
   end
+
+  def repost
+    repost = Repost.find_or_create_by(user_id: current_user.id, post_id: params[:post_id])
+    redirect_to request.referrer, notice: "Post reposted successfully!", allow_other_host: true
+
+  end
+  
+  
 end
