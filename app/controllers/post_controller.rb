@@ -45,6 +45,17 @@ class PostController < ApplicationController
     redirect_to request.referrer, notice: "Post reposted successfully!", allow_other_host: true
 
   end
+
+  def destroy
+    post = Post.find_by(id: params[:post_id]) # Assuming you pass the post_id
+
+    if post && post.destroy
+      redirect_to root_path, notice: "Post deleted successfully."
+    else
+      redirect_to root_path, alert: "Unable to delete the post."
+    end
+  end
+  
   
   
 end

@@ -11,19 +11,26 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Defines the root path route ("/")
+  # post  post/
   post "post/like"
+  post 'post/delete'
   post "post/repost"
   post "post/comment"
   post "post/create"
+  # post user/
   post "user/avatar"
   post 'user/follow'
   post "user/unfollow"
   post "user/username"
+
+  post "community/create"
+
+  # get
   get "user/index"
-  # Example route in routes.rb
+  get "community/index"
   get '/user/:id', to: 'user#profile', as: 'user_profile'
 
-  # get "user/:id",to: "user#profile"
+  # root
   root "home#index"
 
 end
