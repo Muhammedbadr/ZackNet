@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   get "user/index"
   get "community/index"
   get '/user/:id', to: 'user#profile', as: 'user_profile'
-
+  get 'community/:id' , to: "community#community"
   # root
   root "home#index"
 

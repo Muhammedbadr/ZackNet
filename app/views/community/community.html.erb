@@ -1,0 +1,30 @@
+<div class="container mt-5">
+  <!-- Community Title -->
+  <div class="text-center mb-4">
+    <h1 class="fw-bold text-primary"><%= @community.name %></h1>
+    <h5 class="text-muted">Community users count: <%= @community.users.count %></h5>
+  </div>
+
+  <!-- Users List -->
+  <div class="row justify-content-center">
+    <% @community.users.each do |user| %>
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card shadow-sm border-1">
+          <!-- User Avatar -->
+          <% if user.avatar.attached? %>
+            <img src="<%= url_for(user.avatar) %>" class="card-img-top rounded-circle mx-auto mt-3" alt="<%= user.name.presence || user.username %>'s Avatar" style="width: 100px; height: 100px; object-fit: cover;">
+          <% else %>
+            <img src="/placeholder-avatar.png" class="card-img-top rounded-circle mx-auto mt-3" alt="Default Avatar" style="width: 100px; height: 100px; object-fit: cover;">
+          <% end %>
+
+          <!-- User Details -->
+          <div class="card-body text-center">
+            <h5 class="card-title fw-bold"><%= user.name.presence || user.username %></h5>
+            <p class="text-muted">Member since: <%= user.created_at.strftime('%B %Y') %></p>
+            <a href="/user/<%= user.id %>" class="btn btn-primary btn-sm">View Profile</a>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
