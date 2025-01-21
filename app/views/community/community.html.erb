@@ -1,30 +1,85 @@
 <div class="container mt-5">
+
   <!-- Community Title -->
-  <div class="text-center mb-4">
-    <h1 class="fw-bold text-primary"><%= @community.name %></h1>
-    <h5 class="text-muted">Community users count: <%= @community.users.count %></h5>
+  <div class="text-center mb-5">
+    <h4 class="display-6 fw-bold text-primary"><%= @community.name %></h4>
+    <h6 class="text-muted">Community users count: (<%= @community.users.count %>)</h6>
   </div>
 
-  <!-- Users List -->
-  <div class="row justify-content-center">
-    <% @community.users.each do |user| %>
-      <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card shadow-sm border-1">
-          <!-- User Avatar -->
-          <% if user.avatar.attached? %>
-            <img src="<%= url_for(user.avatar) %>" class="card-img-top rounded-circle mx-auto mt-3" alt="<%= user.name.presence || user.username %>'s Avatar" style="width: 100px; height: 100px; object-fit: cover;">
-          <% else %>
-            <img src="/placeholder-avatar.png" class="card-img-top rounded-circle mx-auto mt-3" alt="Default Avatar" style="width: 100px; height: 100px; object-fit: cover;">
-          <% end %>
+  <!-- Main Content Section using d-flex -->
+  <div class="d-flex flex-wrap justify-content-between">
 
-          <!-- User Details -->
-          <div class="card-body text-center">
-            <h5 class="card-title fw-bold"><%= user.name.presence || user.username %></h5>
-            <p class="text-muted">Member since: <%= user.created_at.strftime('%B %Y') %></p>
-            <a href="/user/<%= user.id %>" class="btn btn-primary btn-sm">View Profile</a>
+  <!-- Left Section for Input and Posts -->
+  <div class="flex-fill me-4 mb-4 mb-md-0 col-lg-6 col-md-8" style="max-width: 70%;">
+    <!-- Post Creation Section -->
+    <div>
+      <% if @user.communities.select { |c| c.id == @community.id }.count > 0 %>
+        <%= render "shared/create_post", community_id: @community.id %>
+      <% end %>
+    </div>
+
+    <!-- Posts Section -->
+    <div class="mt-4">
+      <% @community.posts.each do |post| %>
+        <div class="card mb-4 border-0 rounded-3 shadow-sm hover-shadow">
+          <%= render "shared/post_card", post: post, type: "post" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Right Section for Users List -->
+  <div class="flex-fill col-lg-2 col-md-4  mb-4 mb-md-0">
+    <div class="text-center mb-4">
+      <h5 class="fw-bold text-primary">Members</h5>
+    </div>
+
+    <!-- User Layout with Flexbox (Column Layout) -->
+    <div class="d-flex flex-column flex-wrap justify-content-start">
+      <% @community.users.each do |user| %>
+        <div class="d-flex align-items-center mb-3">
+          <!-- User Card -->
+          <div class="card border-0 rounded-3 shadow-lg hover-shadow w-100">
+            <div class="card-body text-center d-flex flex-column align-items-center">
+              <!-- User Avatar -->
+              <div class="mb-3">
+                <% if user.avatar.attached? %>
+                  <img src="<%= url_for(user.avatar) %>" class="rounded-circle" alt="<%= user.name.presence || user.username %>'s Avatar" style="width: 80px; height: 80px; object-fit: cover;">
+                <% else %>
+                  <img src="/placeholder-avatar.png" class="rounded-circle" alt="Default Avatar" style="width: 80px; height: 80px; object-fit: cover;">
+                <% end %>
+              </div>
+
+              <!-- User Info -->
+              <div class="mb-2">
+                <h6 class="card-title text-dark fw-bold"><%= user.name.presence || user.username %></h6>
+                <p class="text-muted mb-2">Member since: <%= user.created_at.strftime('%B %Y') %></p>
+              </div>
+
+              <!-- View Profile Button -->
+              <a href="/user/<%= user.id %>" class="btn btn-outline-primary btn-sm w-100">View Profile</a>
+            </div>
           </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
+
 </div>
+
+<!-- Responsive Adjustments (For Small Screens) -->
+<style>
+  @media (max-width: 768px) {
+    .d-flex {
+      flex-direction: column;
+      align-items: center;
+    }
+    .flex-fill {
+      max-width: 100%;
+      width: 100%;
+    }
+    .col-lg-2 {
+      max-width: 100%;
+    }
+  }
+</style>

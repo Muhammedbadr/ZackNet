@@ -5,7 +5,7 @@ class HomeController < ApplicationController
       user = User.find(current_user.id)
       user_following = user.following.map { |f| f.followed_id }
  
-      posts = Post.where(user_id: user_following)
+      posts = Post.where(user_id: user_following , community_id: nil)
       comments = Comment.where(user_id: user_following)
       reposts = Repost.where(user_id: user_following)
       all_activities = posts + comments + reposts 

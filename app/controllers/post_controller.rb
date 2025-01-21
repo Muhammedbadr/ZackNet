@@ -1,7 +1,7 @@
 class PostController < ApplicationController
   # Create a new post
   def create
-    post = Post.new(user_id: current_user.id, post_text: params[:post_text], has_image: params[:image].present?)
+    post = Post.create(user_id: current_user.id, post_text: params[:post_text], has_image: params[:image].present? , community_id: params[:community_id])
 
     if post.save
       post.image.attach(params[:image]) if params[:image].present?
@@ -29,6 +29,10 @@ class PostController < ApplicationController
     end
   end
 
+  def community_feed
+    @feeds = Post.where(community_id: params[:community_id]).order(created_at: :desc)
+  end
+  
   # Comment on a post
   def comment
     comment = Comment.new(user_id: current_user.id, post_id: params[:post_id], comment_text: params[:comment_text])

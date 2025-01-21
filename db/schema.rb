@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_18_083044) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_20_145645) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -79,6 +79,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_18_083044) do
     t.boolean "has_image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "community_id"
+    t.index ["community_id"], name: "index_posts_on_community_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -120,6 +122,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_18_083044) do
   add_foreign_key "community_users", "users"
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
+  add_foreign_key "posts", "communities"
   add_foreign_key "posts", "users"
   add_foreign_key "relationships", "users", column: "followed_id"
   add_foreign_key "relationships", "users", column: "follower_id"

@@ -3,8 +3,9 @@ class CommunityController < ApplicationController
         @user = User.find(current_user.id)
         @communities = Community.all
     end     
-
+    
     def community
+        @user = User.find(current_user.id)
         @community = Community.find(params[:id])
     end
     def create
