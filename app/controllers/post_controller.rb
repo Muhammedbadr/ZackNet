@@ -1,4 +1,6 @@
 class PostController < ApplicationController
+  before_action :authenticate_user!
+
   # Create a new post
   def create
     post = Post.create(user_id: current_user.id, post_text: params[:post_text], has_image: params[:image].present? , community_id: params[:community_id])
