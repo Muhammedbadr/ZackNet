@@ -49,18 +49,33 @@ class PostController < ApplicationController
   def repost
     repost = Repost.find_or_create_by(user_id: current_user.id, post_id: params[:post_id])
     redirect_to request.referrer, notice: "Post reposted successfully!", allow_other_host: true
-
   end
-
-  def destroy
-    post = Post.find_by(id: params[:post_id]) # Assuming you pass the post_id
-
-    if post && post.destroy
-      redirect_to root_path, notice: "Post deleted successfully."
-    else
-      redirect_to root_path, alert: "Unable to delete the post."
+  
+  
+  
+    # حذف منشور
+    def destroy
+      post = Post.find_by(id: params[:post_id])
+    
+      if post.nil?
+        redirect_to request.referrer || root_path, alert: "Post not found.", allow_other_host: true
+      elsif post.user_id == current_user.id
+        # حذف السجلات المرتبطة يدويًا
+        post.comments.destroy_all
+        post.likes.destroy_all
+        post.reposts.destroy_all
+    
+        post.destroy
+        redirect_to request.referrer || root_path, notice: "Post deleted successfully!", allow_other_host: true
+      else
+        redirect_to request.referrer || root_path, alert: "You are not authorized to delete this post.", allow_other_host: true
+      end
     end
-  end
+    
+  
+
+  
+   
   
   
   

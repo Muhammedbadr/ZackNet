@@ -1,6 +1,5 @@
 class UserController < ApplicationController
   before_action :authenticate_user!
-
     def index
       @users = User.where.not(id: current_user.id)
     end
@@ -22,19 +21,14 @@ class UserController < ApplicationController
           redirect_to request.referrer, alert: "Failed to save the image."
         end
     end
+
     def follow
-      # Fetch the user to follow based on the followed_id parameter
-      @user = User.find_by(id: params[:followed_id])
-      # Handle case if user not found
-      if @user.nil?
-        redirect_to request.referrer, alert: "User not found."
-      else
-        # Create the relationship
-        Relationship.create(follower_id: current_user.id, followed_id: @user.id)
-        # Redirect with a success notice
-        redirect_to request.referrer, notice: "You started following #{@user.username}.", allow_other_host: true
-      end
+        # التحقق مما إذا كانت العلاقة موجودة بالفعل
+        existing_relationship = Relationship.find_by(follower_id: current_user.id, followed_id: params[:followed_id])
+        redirect_to request.referrer, notice: "You started following succusfuly", allow_other_host: true
+    
     end
+    
     def unfollow
       # Fetch the user to unfollow based on the followed_id parameter
       @user = User.find_by(id: params[:followed_id])

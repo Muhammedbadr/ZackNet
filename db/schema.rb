@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_20_145645) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_22_121306) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -61,6 +61,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_20_145645) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["community_id"], name: "index_community_users_on_community_id"
+    t.index ["user_id", "community_id"], name: "index_community_users_on_user_id_and_community_id", unique: true
     t.index ["user_id"], name: "index_community_users_on_user_id"
   end
 
@@ -89,6 +90,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_20_145645) do
     t.integer "followed_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["followed_id"], name: "index_relationships_on_followed_id_and_followed_id", unique: true
   end
 
   create_table "reposts", force: :cascade do |t|
@@ -116,16 +118,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_20_145645) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "comments", "posts"
+  add_foreign_key "comments", "posts", on_delete: :cascade
   add_foreign_key "comments", "users"
   add_foreign_key "community_users", "communities"
   add_foreign_key "community_users", "users"
-  add_foreign_key "likes", "posts"
+  add_foreign_key "likes", "posts", on_delete: :cascade
   add_foreign_key "likes", "users"
   add_foreign_key "posts", "communities"
   add_foreign_key "posts", "users"
   add_foreign_key "relationships", "users", column: "followed_id"
   add_foreign_key "relationships", "users", column: "follower_id"
-  add_foreign_key "reposts", "posts"
+  add_foreign_key "reposts", "posts", on_delete: :cascade
   add_foreign_key "reposts", "users"
 end

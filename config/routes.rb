@@ -12,8 +12,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # post  post/
+
   post "post/like"
-  post 'post/delete'
+  post 'post/destroy', to: 'post#destroy', as: 'destroy_post'
   post "post/repost"
   post "post/comment"
   post "post/create"
@@ -25,12 +26,13 @@ Rails.application.routes.draw do
   post "community/join"
   post "community/leave"
   post "community/create"
-
   # get
   get "user/index"
   get "community/index"
   get '/user/:id', to: 'user#profile', as: 'user_profile'
   get 'community/:id' , to: "community#community"
+  
+  
   # root
   root "home#index"
 
