@@ -49,8 +49,8 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
         <div class="d-flex align-items-center gap-3">
           <!-- Buttons -->
-          <%= link_to t(:home), root_path, class: "btn btn-outline-primary px-4 rounded-pill shadow-sm fw-semibold" %>
           <% if user_signed_in? %>
+          <%= link_to t(:home), root_path, class: "btn btn-outline-primary px-4 rounded-pill shadow-sm fw-semibold" %>
           <!-- Link to Communities -->
             <a class="btn btn-outline-primary px-4 rounded-pill shadow-sm fw-semibold" 
               href="/community/index" role="button">

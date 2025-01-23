@@ -7,13 +7,45 @@
                 <form enctype="multipart/form-data" accept-charset="UTF-8" action="/post/create" method="post">
                     <input type="hidden" name="community_id" value="<%= community_id %>">
                     
-                    <div class="mb-3">
-                        <textarea name="post_text" class="form-control" id="postTextarea" rows="3" placeholder="What's happening?" required></textarea>
+                        <!-- Post Textarea -->
+                    <div class="input-group mb-3">
+                        <div class="form-floating">
+                                <textarea  
+                                    name="post_text" 
+                                    required 
+                                    oninvalid="setCustomValidity('Write something')" 
+                                    oninput="setCustomValidity('')" 
+                                    class="form-control" 
+                                    id="postTextarea" 
+                                    rows="5" 
+                                    style="height: 100px"
+                                    placeholder="What's happening?">
+                                </textarea>
+                                <label for="postTextarea" >Write new post</label>
+                        </div>
+                        <button 
+                                onclick="document.getElementById('image').click()" 
+                                class="btn btn-primary" 
+                                type="button" 
+                                title="Attach an image">
+                                <span class="material-symbols-outlined "><i class="fa-regular fa-images " style="padding: 5px;"></i></span>
+                        </button>
                     </div>
+
                     <div class="mb-3">
-                        <label for="image" class="form-label">Attach an image</label>
-                        <input name="image" class="form-control" type="file" id="image">
+                        <img id="image-preview" style="width:300px; height:200px; object-fit:cover; display:none"/>
+                        <input 
+                            onchange="
+                            document.getElementById('image-preview').src = window.URL.createObjectURL(this.files[0]);
+                            document.getElementById('image-preview').style.display = '' 
+                            "
+                            name="image" 
+                            class="form-control" 
+                            type="file" 
+                            id="image" 
+                            style="display: none">
                     </div>
+
                     <button type="submit" class="btn btn-success w-100">Create Post</button>
                 </form>
             </div>
